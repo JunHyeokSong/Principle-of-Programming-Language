@@ -1,0 +1,27 @@
+diff --git a/hw/hw2/handout/src/main/scala/Hw2.scala b/hw/hw2/handout/src/main/scala/Hw2.scala
+index ae68143..09adb5a 100644
+--- a/hw/hw2/handout/src/main/scala/Hw2.scala
++++ b/hw/hw2/handout/src/main/scala/Hw2.scala
+@@ -52,8 +52,8 @@ package object Hw2 {
+ object IntInterpreter {
+   def evalInt(expr: IntExpr, env: Option[Int]): Int = 1
+   def apply(s: String): Int = {
+-    val Parsed.Success(value, successIndex) = IntParser(s)
+-    evalInt(value, None)
++    val parsed = IntParser(s)
++    evalInt(parsed, None)
+   }
+ }
+ 
+@@ -78,8 +78,8 @@ object Hw2App extends App {
+   println("Hello from Hw2!")
+ 
+   val int_prog = """x + 1"""
+-  val Parsed.Success(value, successIndex) = IntParser(int_prog)
+-  println(value)
++  val parsed = IntParser(int_prog)
++  println(parsed)
+ 
+ 
+ }
+\ No newline at end of file

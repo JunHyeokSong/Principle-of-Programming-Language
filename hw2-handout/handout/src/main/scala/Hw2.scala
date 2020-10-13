@@ -50,7 +50,20 @@ package object Hw2 {
 }
 
 object IntInterpreter {
-  def evalInt(expr: IntExpr, env: Option[Int]): Int = 1
+  def evalInt(expr: IntExpr, env: Option[Int]): Int = {
+    expr match {
+      case IntConst(n) => n
+      case IntAdd(l, r) => evalInt(l, env) + evalInt(r, env)
+      case IntSub(l, r) => evalInt(l, env) - evalInt(r, env)
+      case IntMul(l, r) => evalInt(l, env)*evalInt(r, env)
+      case IntSigma(f, t, b) => if (evalInt(f, env) > evalInt(t, env)) 0 else evalInt(IntSigma(IntAdd(f, IntConst(1)), t, b), env) + evalInt(b, Some(evalInt(f, None)))
+      case IntPow(b, e) => if (evalInt(e, env) == 0) 1 else evalInt(b, env) * evalInt(IntPow(b, IntSub(e, IntConst(1))), env)
+      case _ => env match {
+        case Some(n) => n
+        case None => throw new Exception("Variable not defined")
+      }
+    }
+  }
   def apply(s: String): Int = {
     val parsed = IntParser(s)
     evalInt(parsed, None)
@@ -59,7 +72,16 @@ object IntInterpreter {
 
 object LetRecInterpreter {
   
-  def eval(env: Env, expr: Expr): Val = BoolVal(false)
+  def eval(env: Env, expr: Expr): Val = {
+    expr match
+    {
+      case Const(n) => IntVal(n)
+      case Var(s) => env.apply(expr) 
+      case Add(l, r) => (l, r) match {
+        case (l : IntVal, )
+      } 
+    }
+  }
   
   
   def apply(program: String): Val = {
